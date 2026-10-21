@@ -1240,6 +1240,12 @@ function SWEP:Think()
 
     local owner = self:GetOwner()
     if IsValid(owner) ~= true then return true end
+
+    -- PredictedThink is never called automatically on Listen Servers.
+    if owner:IsListenServerHost() then
+        self:PredictedThink()
+    end
+    
     -- In mega its always open, no need for traces.
     if self:IsMegaPhysCannon() == false and controller:IsObjectAttached() == false then
         self:CheckForTarget()
